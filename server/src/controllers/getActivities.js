@@ -12,7 +12,7 @@ async function getActivities (req, res) {
                     as: 'countries'
                 }
             ]
-        });
+        })
 
         if (!activities.length) res.status(200).json([]);
         else {

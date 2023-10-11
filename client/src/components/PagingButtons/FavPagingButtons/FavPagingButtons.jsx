@@ -30,7 +30,7 @@ export default function FavPagingButtons () {
             />
 
             <p>
-                {`${favCurrentPage} / ${favoritesInPages.length ? - 1 : 0}`}
+                {`${favCurrentPage} / ${favoritesInPages.length ? favoritesInPages.length - 1 : 0}`}
             </p>
 
             <MdKeyboardArrowRight 

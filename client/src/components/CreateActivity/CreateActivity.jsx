@@ -47,12 +47,12 @@ export default function CreateActivity () {
         try {
             const { name, difficulty, duration, season, countries} = inputValues;
             if (name && difficulty && duration && season && countries.length) {
-
-                await axios.post('http://localhost:3001/activities', inputValues)
                 
+                await axios.post('http://localhost:3001/activities', inputValues)
                 setTimeout(() => {
                     getAllActivitiesFromServer().then(data => {dispatch(setActivities(data))})
                     getAllCountriesFromServer().then(data => {
+                        //se aplican de nuevo los filstros a los paises, para que esten actualizados
                         dispatch(setCountries(filterCountries(data, searchFilters)));
                         dispatch(setCountriesCOPY(data))
                     })
