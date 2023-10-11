@@ -1,0 +1,42 @@
+.activities-list-container {
+    box-sizing: border-box;
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    align-items: center;
+    width: 48.5%;
+}
+    .activities-list-title {
+        box-sizing: inherit;
+        border: solid white 1px;
+        border-top: none;
+        width: 100%;
+        max-height: 8%;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        background-color: black
+    }
+
+        .activities-list-title h1 {
+            color: white;
+            text-align: center;
+        }
+
+    .activities-list {
+        padding: 10px;
+        box-sizing: inherit;
+        min-height: 90%;
+        max-height: 90%;
+        width: 95%;
+        border: solid white 1px;
+        border-top: none;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background-color: rgb(15, 15, 15);
+    }
+
+

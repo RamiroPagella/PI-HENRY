@@ -1,0 +1,27 @@
+h4 {
+    color: white;
+    margin: 0;
+}
+.PI-text {
+    margin: 25px;
+}
+
+.registrarse-text-button {
+    margin: 0;
+}
+.registrarse-text-button:hover {
+    text-decoration: underline;
+}
+
+
+.landing-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-image: url('./countries.png');
+    background-size: cover;
+}
+

@@ -1,0 +1,9 @@
+.activities-view-container {
+    display: flex;
+    height: 85vh;
+    max-height: 85vw;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+}
+    

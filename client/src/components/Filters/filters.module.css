@@ -1,0 +1,49 @@
+.filter-buttons-container {
+    min-height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+    .filter-buttons-container select {
+        appearance: none;
+        width: 22%;
+        height: 65%;
+        font-family: inherit;
+        font-size: 0.85em;
+        color: white;
+        background-color: black;
+        text-align: center;
+        border-radius: 100px;
+       
+    }
+    .filter-buttons-container select:hover {
+        cursor: pointer;
+        background-color: rgb(30, 30, 30);
+    }
+
+    #continents-filter {
+        background-color: black;
+        color: white;
+        font-family: inherit;
+    }
+
+    .icon {
+        color: white;
+        position: absolute;
+        pointer-events: none;
+    }
+    #icon1 {
+        left: 19.5%;
+    }
+    #icon2 {
+        left: 43%;
+    }
+    #icon3 {
+        right: 43%;
+    }
+    #icon4 {
+        right: 19%;
+    }

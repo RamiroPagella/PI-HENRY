@@ -1,0 +1,30 @@
+.navBar-bottom-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-grow: 1;
+    max-height: 65px;
+    border-top: solid white 1px;
+    width: 40%;
+    align-self: center;
+}
+
+    .navBarBottom-icon-container {
+        flex-grow: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .navBarBottom-icon-container:hover {
+        /* background-image: linear-gradient(to right, #202020 0%, rgb(20, 20, 20) 100%); */
+        background-color: rgb(30, 30, 30);
+    }
+ 
+
+
+#isSelected {
+    background-color: rgb(30, 30, 30);
+}
+
+

@@ -1,0 +1,19 @@
+.cards-container { 
+    border-top: solid white 1px;
+    border-radius: 20px;
+    margin: 0;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-around;
+    box-sizing: border-box;
+    border-bottom: solid white 1px;
+    max-height: 85%;
+    min-height: 85%;
+    width: 100%;
+    overflow: scroll;
+    background-color: #151515;
+}
+
+    

@@ -1,0 +1,26 @@
+.country-activities-container {
+    box-sizing: inherit;
+    border: solid white 1px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 27.5%;
+    user-select: none;
+}
+    .country-activities-title-container {
+        box-sizing: border-box;
+        height: 7.5%;
+        width: 100%;
+        border-bottom: solid white 1px;
+    }   
+    .country-activities-title-container h1 {
+        color: white;
+        font-size: 1.8em;
+        text-align: center;
+    }
+
+    .country-activities-items {
+        height: 92.5%;
+        border-radius: 15px;
+        overflow: scroll;
+    }

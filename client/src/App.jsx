@@ -1,34 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+//
+import LandingPage from './views/LandingPage/LandingPage';
+import RegisterForm from './views/Register/RegisterPage';
+import Home from './views/Home/Home';
+import NavBar from './components/NavBar/NavBar';
+import Detail from './views/Detail/Detail';
+import Favorites from './views/Favorites/Favorites';
+import Activities from './views/Activities/Activities';
+//
+import { Routes, Route, useLocation } from 'react-router-dom'
+//
+import { useEffect } from 'react';
+//
+import { useDispatch } from 'react-redux'
+import { setCountries, setCountriesCOPY, setActivities } from './redux/slice.js';
+//
+import getAllCountriesFromServer from './utils/getAllCountriesFromServer';
+import getAllActivitiesFromServer from './utils/getAllActivitiesFromServer';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const location = useLocation();
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    
+    getAllCountriesFromServer().then(data => {
+      dispatch(setCountries(data));
+      dispatch(setCountriesCOPY(data))
+    })
+
+    getAllActivitiesFromServer().then(data => {
+      dispatch(setActivities(data))
+    }).catch(err => console.log("No hay actividades creadas", err.message))
+
+
+  }, []) 
+
+  ////////////////////////////////////
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='App'>
+
+      { location.pathname !== '/' && location.pathname !== '/register' ? (<NavBar />) : null }
+      
+      <Routes>
+
+        <Route path='/' element={ <LandingPage/> } />
+
+        <Route path='/register' element={ <RegisterForm/> } />
+
+        <Route path='/favorites' element={ <Favorites/> } />
+
+        <Route path='/home' element={ <Home /> } />
+
+        <Route path='home/detail/:id' element={ <Detail/> } />
+        <Route path='favorites/detail/:id' element={ <Detail/> } />
+
+        <Route path='/activities' element={ <Activities/> } />
+
+
+      </Routes>
+
+    </div>
   )
 }
 

@@ -1,13 +1,13 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define('Activity', {
         
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             allowNull: false,
             primaryKey: true,
-            autoIncrement: true
         },
 
         name: {
@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
         },
 
         duration: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
 
@@ -31,5 +31,9 @@ module.exports = (sequelize) => {
             allowNull: false
         }
 
-    }, {timestamps: false})
+    }, {
+        define: {
+            primaryKey: 'uuid'
+        }
+    })
 }
