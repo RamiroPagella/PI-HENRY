@@ -8,27 +8,26 @@ async function postActivity (req, res) {
 
         const { name, difficulty, duration, season, countries} = activityData;
         
-        if (!name || !difficulty || !duration || !season || !countries || !countries.length ||
-            name.length > 20 || difficulty < 1 || difficulty > 5 ||
-            !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(duration) ||
+        if (!name.length || !difficulty || !duration || !season || !countries || !countries.length) return res.status(400).json({missingData: true});
+       
+        if (name.length > 25 || difficulty < 1 || difficulty > 5 || 
+            !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(duration) || 
             season !== "Verano" && season !== "Otoño" && season !== "Invierno" && season !== "Primavera"
-        ) return res.status(400);
+        ) return res.status(400).json({incorrectData: true})
+
+        
 
         if (countries && Array.isArray(countries)) {
-            const countryNames = countries;
+            const activityWithSameName = await Activity.findOne({where: {name: name}});
+            if (activityWithSameName) return res.status(400).json({activityAlreadyExists: true})
             
             const activity = await Activity.create({name, difficulty, duration, season});
-
-            for (let c of countryNames) {
+            for (let c of countries) {
                 //se asume que ninguno sera undefined porque se verifica antes de enviarse el formulario
-                let country = await Country.findOne({
-                    where: {
-                        name: {
-                            [Op.eq]: c
-                        }
-                    }
-                });
-                country.addActivity(activity); // camiar. agregar pais a actividad
+                let country = await Country.findOne({ where: {name: {
+                    [Op.eq]: c
+                }}});
+                activity.addCountry(country); 
             }
 
         } 

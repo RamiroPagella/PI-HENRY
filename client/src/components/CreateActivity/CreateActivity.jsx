@@ -20,6 +20,13 @@ export default function CreateActivity () {
     const searchFilters = useSelector(state => state.app.searchFilters);
     const countryNames = countries.map(country => country.name);
 
+    const [ isNameEmpty, setIsNameEmpty ] = useState(true);
+    const [ isDurationEmpty, setIsDurationEmpty ] = useState(true);
+    const [ isNameIncorrect, setIsNameIncorret] = useState(false);
+    const [ isSeasonEmpty, setIsSeasonEmpty] = useState(true);
+    const [ isCountriesEmpty, setIsCountriesEmpty ] = useState(true);
+    const [ activityAlreadyExists, setActivityAlreadyExists ] = useState(false);
+
     const [ inputValues, setInputValues ] = useState({
         name: '',
         difficulty: 5,
@@ -31,28 +38,58 @@ export default function CreateActivity () {
     //
 
     function changeHandler(e) {
-        const inputValuesCOPY = {...inputValues};
+        const { selectedOptions, name, value} = e.target;
 
-        if (e.target.selectedOptions) {
-            //const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
-            inputValuesCOPY.countries = Array.from(e.target.selectedOptions).map(option => option.value);
+        if (selectedOptions) {
+            setIsCountriesEmpty(false);
+            setInputValues({
+                ...inputValues,
+                countries: Array.from(e.target.selectedOptions).map(option => option.value)
+            })
         }
-        else inputValuesCOPY[e.target.name] = e.target.value;
-        
-        setInputValues(inputValuesCOPY);
+        else {
+            if (name === 'name') {
+                if (value === '') setIsNameEmpty(true);
+                if (value.length > 25) setIsNameIncorret(true)
+                else {
+                    setIsNameEmpty(false);
+                    setIsNameIncorret(false);
+                    setActivityAlreadyExists(false);
+                }
+            }
+            if (name === 'duration') {
+                if (value === '') setIsDurationEmpty(true);
+                else setIsDurationEmpty(false);
+            }
+            if (name === 'season') {
+                if (value === '') setIsSeasonEmpty(true);
+                else setIsSeasonEmpty(false);
+            }
+
+            setInputValues({
+                ...inputValues,
+                [name]: value
+            })
+        }
     }
 
 
     async function submitHandler() {
         try {
             const { name, difficulty, duration, season, countries} = inputValues;
-            if (name && difficulty && duration && season && countries.length) {
+            if (name !== '' &&
+             difficulty >= 1 && 
+             difficulty <= 5 && 
+             /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(duration) && 
+             season !== '' && 
+             countries.length) {
+
+                const { response } = await axios.post('http://localhost:3001/activities', inputValues);
                 
-                await axios.post('http://localhost:3001/activities', inputValues)
                 setTimeout(() => {
                     getAllActivitiesFromServer().then(data => {dispatch(setActivities(data))})
                     getAllCountriesFromServer().then(data => {
-                        //se aplican de nuevo los filstros a los paises, para que esten actualizados
+                        //se actualizan los paises y se vuelven a aplicar los filtros
                         dispatch(setCountries(filterCountries(data, searchFilters)));
                         dispatch(setCountriesCOPY(data))
                     })
@@ -68,7 +105,8 @@ export default function CreateActivity () {
 
             }
         } catch (err) {
-            console.log("Error al realizar el post de la actividad", err.message);
+            if (err.response.data.activityAlreadyExists) setActivityAlreadyExists(true);
+            console.log("Error al realizar el post de la actividad", err);
         }
     }   
 
@@ -97,9 +135,14 @@ export default function CreateActivity () {
                         value={inputValues.name}
                         onChange={changeHandler}
                         id={Styles['name-input']}
+                        style={isNameEmpty || isNameIncorrect ? {border: 'solid red 1px'} : null}
                     ></input>
-                </div>
 
+                    {isNameEmpty ? <p className={Styles['red-text']}> * </p> : null}
+                    {isNameIncorrect ? <p className={Styles['red-text']} id={Styles['incorrect-name']}> Menor a 25 caracteres. </p> : null}
+                    {activityAlreadyExists ? <p className={Styles['red-text']} id={Styles['activity-already-exists']}> Ya existe una actividad con el mismo nombre. </p> : null}
+
+                </div>               
 
                 <div className={Styles['input-container']}>
                     <label>Dificultad:</label>
@@ -124,9 +167,12 @@ export default function CreateActivity () {
                         name='duration'
                         value={inputValues.duration}
                         onChange={changeHandler}
+                        style={isDurationEmpty ? {border: 'solid red 1px'} : null}
                     ></input>
-                </div>
+                    
+                    {isDurationEmpty ? <p className={Styles['red-text']} style={{right: '30%'}}> * </p> : null}
 
+                </div>
 
                 <div className={Styles['input-container']} id={Styles['input-container-last']}>
 
@@ -175,6 +221,9 @@ export default function CreateActivity () {
 
                     </div>
             
+                    {isSeasonEmpty ? <p className={Styles['red-text']} style={{top: '8%', right: '32%'}}> * </p> : null}
+
+
                 </div>
 
                 <select 
@@ -186,9 +235,16 @@ export default function CreateActivity () {
                         countryNames?.map(name => <option value={name} key={name} > {name} </option>)
                     }
                 </select>
+                {isCountriesEmpty ? <p className={Styles['red-text']} style={{bottom: '17%'}}> * </p> : null}
 
-
-                <button 
+                {
+                    inputValues.name !== '' &&
+                    inputValues.difficulty >= 1 && 
+                    inputValues.difficulty <= 5 && 
+                    /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(inputValues.duration) && 
+                    inputValues.season !== '' && 
+                    inputValues.countries.length ?
+                    (<button 
                     type='button'
                     onClick={submitHandler} 
                     className={Styles['create-activity-button']}
@@ -196,7 +252,12 @@ export default function CreateActivity () {
 
                     Agregar actividad
 
-                </button>
+                    </button>)
+                    :
+                    null
+                } 
+
+                
 
             </form>
 

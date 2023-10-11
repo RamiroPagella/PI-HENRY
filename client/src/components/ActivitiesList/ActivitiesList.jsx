@@ -7,7 +7,6 @@ import ActivityItem from '../ActivitiyItem/ActivityItem';
 export default function ActivitiesList () {
 
     const activities = useSelector(state => state.app.activities);
-    console.log(activities);
 
     return (
 
