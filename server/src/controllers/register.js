@@ -12,11 +12,12 @@ async function register (req, res) {
                 }
             })
             
-            if (user) res.status(400).send('Ya hay un usuario asociado con ese correo electronico');
+            if (user) return res.status(400).json({userAlreadyExists: true});
 
             else await User.create({...req.body});
-            res.status(200).send('El usuario fue creado correctamente');
+            res.status(200).json({created: true});
         }
+        else res.status(400).json({missingData: true})
 
     } catch (error) {
         res.status(500).send(error.message);

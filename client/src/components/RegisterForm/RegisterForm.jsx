@@ -68,7 +68,6 @@ function RegisterForm () {
         }
         else errorMsgIsShownCOPY.password = false;
 
-
         //si faltan datos:
         if (!name.length) {
             errorsMsg.name.current.innerHTML = 'Ingrese un nombre';
@@ -89,11 +88,15 @@ function RegisterForm () {
     async function register() {
         try {
             if (!errorMsgIsShown.name && !errorMsgIsShown.email && !errorMsgIsShown.password) {
-                const { response } = await axios.post('http://localhost:3001/register', inputValues);
+                const { data } = await axios.post('http://localhost:3001/register', inputValues);
+                console.log(data)
                 navigate('/home')
             }
         } catch (error) {
-            console.log(error)
+            if (error.response.data.userAlreadyExists) {
+                errorsMsg.email.current.innerHTML = 'Ya existe un usuario con este email.';
+                setErrorMsgIsShown({...errorMsgIsShown, email: true})
+            }
         }
     }
 
