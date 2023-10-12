@@ -1,6 +1,6 @@
 import Styles from './createActivity.module.css';
 //
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //
 import getAllActivitiesFromServer from '../../utils/getAllActivitiesFromServer';
@@ -9,24 +9,20 @@ import filterCountries from '../../utils/filterCountries';
 //
 import axios from 'axios';
 //
-import { setActivities, setCountries, setCountriesCOPY } from '../../redux/slice';
+import { setActivities, setCountries, setCountriesCOPY, setActivityForm } from '../../redux/slice';
 //
 
 
 export default function CreateActivity () {
 
     const dispatch = useDispatch();
+
     const countries = useSelector(state => state.app.countries);
     const searchFilters = useSelector(state => state.app.searchFilters);
-    const countryNames = countries.map(country => country.name);
 
-    const [ isNameEmpty, setIsNameEmpty ] = useState(true);
-    const [ isDurationEmpty, setIsDurationEmpty ] = useState(true);
-    const [ isNameIncorrect, setIsNameIncorret] = useState(false);
-    const [ isSeasonEmpty, setIsSeasonEmpty] = useState(true);
-    const [ isCountriesEmpty, setIsCountriesEmpty ] = useState(true);
     const [ activityAlreadyExists, setActivityAlreadyExists ] = useState(false);
 
+    const activityForm = useSelector(state => state.app.activityForm);
     const [ inputValues, setInputValues ] = useState({
         name: '',
         difficulty: 5,
@@ -34,61 +30,43 @@ export default function CreateActivity () {
         season: '',
         countries: []
     })
-    
-    
+
     //
 
     function changeHandler(e) {
         const { selectedOptions, name, value} = e.target;
+        const inputValuesCOPY = {...inputValues};
 
         if (selectedOptions) {
-            setIsCountriesEmpty(false);
-            setInputValues({
-                ...inputValues,
-                countries: Array.from(e.target.selectedOptions).map(option => option.value)
-            })
+            inputValuesCOPY.countries = Array.from(e.target.selectedOptions).map(option => option.value)
         }
         else {
-            if (name === 'name') {
-                if (value === '') setIsNameEmpty(true);
-                if (value.length > 25) setIsNameIncorret(true)
-                else {
-                    setIsNameEmpty(false);
-                    setIsNameIncorret(false);
-                    setActivityAlreadyExists(false);
-                }
-            }
-            if (name === 'duration') {
-                if (value === '') setIsDurationEmpty(true);
-                else setIsDurationEmpty(false);
-            }
-            if (name === 'season') {
-                if (value === '') setIsSeasonEmpty(true);
-                else setIsSeasonEmpty(false);
-            }
+            setActivityAlreadyExists(false);
+            inputValuesCOPY[name] = value;
+        }   
 
-            setInputValues({
-                ...inputValues,
-                [name]: value
-            })
-        }
+        setInputValues(inputValuesCOPY);
+        dispatch(setActivityForm(inputValuesCOPY));
+
     }
 
 
     async function submitHandler() {
         try {
             const { name, difficulty, duration, season, countries} = inputValues;
-            if (name !== '' &&
-             difficulty >= 1 && 
-             difficulty <= 5 && 
-             /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(duration) && 
-             season !== '' && 
-             countries.length) {
 
-                const { response } = await axios.post('http://localhost:3001/activities', inputValues);
+            if (name !== '' && name.length < 25 &&
+                difficulty >= 1 &&  difficulty <= 5 && 
+                /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(duration) && 
+                season !== '' && 
+                countries.length) {
+
+                await axios.post('http://localhost:3001/activities', inputValues);
                 
                 setTimeout(() => {
-                    getAllActivitiesFromServer().then(data => {dispatch(setActivities(data))})
+                    getAllActivitiesFromServer().then(data => {
+                        dispatch(setActivities(data))
+                    })
                     getAllCountriesFromServer().then(data => {
                         //se actualizan los paises y se vuelven a aplicar los filtros
                         dispatch(setCountries(filterCountries(data, searchFilters)));
@@ -111,6 +89,10 @@ export default function CreateActivity () {
         }
     }   
 
+
+    useEffect(() => {
+        setInputValues(activityForm);
+    }, [])
     ////////////////////////////////////////////////////////////////
 
     return (
@@ -126,7 +108,7 @@ export default function CreateActivity () {
 
 
             <form className={Styles['create-activity-form']}>
-                {isNameEmpty ? <p className={Styles['red-text']} style={{top: '5%'}}> * </p> : null}
+                {!inputValues.name.length ? <p className={Styles['red-text']} style={{top: '5%'}}> * </p> : null}
 
                 <div className={Styles['input-container']}>
                     <label>Nombre:</label>
@@ -136,11 +118,11 @@ export default function CreateActivity () {
                         value={inputValues.name}
                         onChange={changeHandler}
                         id={Styles['name-input']}
-                        style={isNameEmpty || isNameIncorrect ? {border: 'solid red 1px'} : null}
+                        style={inputValues.name > 25 || !inputValues.name.length ? {border: 'solid red 1px'} : null}
                     ></input>
 
                     
-                    {isNameIncorrect ? <p className={Styles['red-text']} id={Styles['incorrect-name']}> Menor a 25 caracteres. </p> : null}
+                    {inputValues.name.length > 25 ? <p className={Styles['red-text']} id={Styles['incorrect-name']}> Menor a 25 caracteres. </p> : null}
                     {activityAlreadyExists ? <p className={Styles['red-text']} id={Styles['activity-already-exists']}> Ya existe una actividad con el mismo nombre. </p> : null}
 
                 </div>               
@@ -168,12 +150,12 @@ export default function CreateActivity () {
                         name='duration'
                         value={inputValues.duration}
                         onChange={changeHandler}
-                        style={isDurationEmpty ? {border: 'solid red 1px'} : null}
+                        style={!inputValues.duration.length ? {border: 'solid red 1px'} : null}
                     ></input>
                     
 
                 </div>
-                {isDurationEmpty ? <p className={Styles['red-text']} style={{bottom: '53%'}}> * </p> : null}
+                {!inputValues.duration.length ? <p className={Styles['red-text']} style={{bottom: '53%'}}> * </p> : null}
 
 
                 <div className={Styles['input-container']} id={Styles['input-container-last']}>
@@ -225,7 +207,7 @@ export default function CreateActivity () {
         
 
                 </div>
-                {isSeasonEmpty ? <p className={Styles['red-text']} style={{bottom: '35%'}}> * </p> : null}
+                {!inputValues.season.length ? <p className={Styles['red-text']} style={{bottom: '35%'}}> * </p> : null}
 
 
                 <select 
@@ -234,10 +216,13 @@ export default function CreateActivity () {
                     id={Styles['countries-select']}
                     >
                     {
-                        countryNames?.map(name => <option value={name} key={name} > {name} </option>)
+                        countries?.map(country => country.name)
+                        .map(name => 
+                            <option value={name} key={name} > {name} </option>
+                        )
                     }
                 </select>
-                {isCountriesEmpty ? <p className={Styles['red-text']} style={{bottom: '15%'}}> * </p> : null}
+                {!inputValues.countries.length ? <p className={Styles['red-text']} style={{bottom: '15%'}}> * </p> : null}
 
                 {
                     inputValues.name !== '' &&
@@ -247,13 +232,11 @@ export default function CreateActivity () {
                     inputValues.season !== '' && 
                     inputValues.countries.length ?
                     (<button 
-                    type='button'
-                    onClick={submitHandler} 
-                    className={Styles['create-activity-button']}
+                        type='button'
+                        onClick={submitHandler} 
+                        className={Styles['create-activity-button']}
                     >
-
-                    Agregar actividad
-
+                        Agregar actividad
                     </button>)
                     :
                     null
@@ -267,8 +250,6 @@ export default function CreateActivity () {
            
         </div>
         
-
-
 
     )
 
