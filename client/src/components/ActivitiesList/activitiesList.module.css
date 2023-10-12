@@ -35,7 +35,6 @@
         overflow: scroll;
         display: flex;
         flex-direction: column;
-        gap: 15px;
         background-color: rgb(15, 15, 15);
     }
 

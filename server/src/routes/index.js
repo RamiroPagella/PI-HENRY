@@ -4,8 +4,10 @@ const getCountryByID = require('../controllers/getCountryByID');
 const getCountryByName = require('../controllers/getCountryByName');
 const postActivity = require('../controllers/postActivity');
 const getActivities = require('../controllers/getActivities');
+const deleteActivity = require('../controllers/deleteActivity')
 const login = require('../controllers/login');
-const register = require('../controllers/register')
+const register = require('../controllers/register');
+
 
 const router = Router();
 
@@ -21,6 +23,7 @@ router.get('/countries/:id', getCountryByID);
 
 router.get('/activities', getActivities);
 router.post('/activities', postActivity);
+router.delete('/activities/query?', deleteActivity);
 
 router.post('/login', login);
 

@@ -17,7 +17,6 @@
         justify-content: center;
     }
     .navBarBottom-icon-container:hover {
-        /* background-image: linear-gradient(to right, #202020 0%, rgb(20, 20, 20) 100%); */
         background-color: rgb(30, 30, 30);
     }
  

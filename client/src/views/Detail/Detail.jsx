@@ -88,6 +88,10 @@ export default function Detail () {
                             setIsRightButtonDisabled(true);
                             prevID = prev.id;
                         }
+                        if (!prev && !next) {
+                            setIsRightButtonDisabled(true);
+                            setIsLeftButtonDisabled(true);
+                        }
                     }
                 }
 

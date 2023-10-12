@@ -1,15 +1,42 @@
-.activity-item-container {
-    min-height: 17.2%;
+.activityItem-container-closed {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    position: relative;
+    background-color: black;
+    border-radius: 15px;
+    border: solid gray 1px;   
+    margin-top: 10px;
+    margin-bottom: 10px;
+    user-select: none;
 }
+#activityItem-container-open {
+    min-height: 60%;
+    max-height: 20%;
+}
+
+#deleteIcon-container {
+    border: solid gray 1px;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 50px;
+    left: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: black;
+}
+
+
+
     #title-container {
-        height: 25%;
+        max-height: 25%;
         border: solid white 1px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
-        background-color: black;
+        background-color: rgb(30, 30, 30);
     }
         #title-container h3 {
             color: white;
@@ -17,17 +44,31 @@
         }
 
     .info-containers {
+        max-height: 100px;
         background-color: black;
         border: solid gray 1px;
         border-top: none;
-        flex: 1;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
+        align-items: center;    
+        padding: 10px;
+        gap: 8px;
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
     }
+    .info-containers:hover {
+        background-color: rgb(30, 30, 30);
+        cursor: pointer;
+    }
+
+        #deleteIcon-container:hover{
+            background-color: red;
+        }
+        #delete-icon {
+            color: white;
+            pointer-events: none;
+        }
+
         .info-container {
             width: 70%;
             display: flex;
@@ -49,5 +90,52 @@
                 padding-right: 10px;
                 text-align: end;
             }
+
+        .activity-countries {
+            height: 100%;
+            max-height: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+            .activity-countries p {
+                color: white;
+                text-align: center;
+                display: block;
+            }
+            .activity-countries h5 {
+                color: white;
+                text-align: center;
+            }
+            #countries-list {
+                min-height: 75%;
+                max-height: 75%;
+                width: 100%;
+                border-top: solid gray 1px;
+                border-bottom: solid gray 1px;
+                overflow: scroll;
+            }
+                #countryItem:hover {
+                    cursor: pointer;
+                    background-color: rgb(15,15,15);
+                }
+
+
+#iconClosed {
+    color: white;
+    position: absolute;
+    top: 60px;
+    right: 5.5%;
+    pointer-events: none;
+}
+#iconOpen {
+    color: white;
+    position: absolute;
+    top: 60px;
+    right: 5.5%;
+    pointer-events: none;
+}   
+
+    
             
         

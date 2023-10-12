@@ -1,12 +1,20 @@
 import Styles from './activitiesList.module.css';
 //
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 //
 import ActivityItem from '../ActivitiyItem/ActivityItem';
+//
+//
+
+
 
 export default function ActivitiesList () {
 
+    const dispatch = useDispatch();
+
     const activities = useSelector(state => state.app.activities);
+  
+
 
     return (
 
@@ -20,7 +28,14 @@ export default function ActivitiesList () {
                 
                 {
                     activities.length ? activities.map(({ id, name, difficulty, duration, season, countries }) => 
-                        <ActivityItem key={id} name={name} difficulty={difficulty} duration={duration} season={season} countries={countries}/>
+                        <ActivityItem 
+                            key={id} 
+                            name={name} 
+                            difficulty={difficulty} 
+                            duration={duration} 
+                            season={season} 
+                            countries={countries}
+                        />
                     )
                     :
                     <h1 style={{color: 'white', textAlign:'center'}}>¡No hay actividades creadas!</h1>

@@ -22,7 +22,7 @@ function Cards () {
             
             
             {
-                countries && countriesInPages.length ? countriesInPages[currentPage].map(({ id, name, capital, flagImage }) => (
+                countries.length && countriesInPages.length ? countriesInPages[currentPage].map(({ id, name, capital, flagImage }) => (
                     <Card key={id} id={id} name={name} capital={capital} flagImage={flagImage}/>
                 )) 
 

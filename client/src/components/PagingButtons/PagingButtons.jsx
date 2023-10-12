@@ -18,7 +18,7 @@ export default function PagingButtons () {
     const countriesInPages = divideCountriesInPages(countries);
 
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); //corregir el -1
 
     return (
         <div className={Styles['paging-container']}>
@@ -42,7 +42,7 @@ export default function PagingButtons () {
             
 
             <p>
-                {`${currentPage} / ${countriesInPages.length - 1}`} 
+                {`${currentPage + 1} / ${countriesInPages.length > 0 ? countriesInPages.length : 1 }`}
             </p>
 
             {
