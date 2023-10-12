@@ -24,6 +24,13 @@ const initialState = {
         population: 'none',
         activity: 'none',
         orderBy: 'A-Z'
+    },
+    activityForm: {
+        name: '',
+        difficulty: 5,
+        duration: '',
+        season: '',
+        countries: []
     }
 }
 
@@ -78,6 +85,9 @@ export const slice = createSlice({
         },
         setFavFilters: (state, action) => {
             state.favSearchFilters = action.payload;
+        },
+        setActivityForm: (state, action) => {
+            state.activityForm = action.payload;
         }
 
     }
@@ -98,6 +108,7 @@ export const {
     setFilters,
     setFavFilters,
     favPrevPage,
-    favNextPage
+    favNextPage,
+    setActivityForm
 } = slice.actions;
 export default slice.reducer;

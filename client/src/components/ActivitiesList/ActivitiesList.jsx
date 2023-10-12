@@ -11,7 +11,6 @@ import ActivityItem from '../ActivitiyItem/ActivityItem';
 export default function ActivitiesList () {
 
     const dispatch = useDispatch();
-
     const activities = useSelector(state => state.app.activities);
   
 
@@ -30,6 +29,7 @@ export default function ActivitiesList () {
                     activities.length ? activities.map(({ id, name, difficulty, duration, season, countries }) => 
                         <ActivityItem 
                             key={id} 
+                            id={id}
                             name={name} 
                             difficulty={difficulty} 
                             duration={duration} 

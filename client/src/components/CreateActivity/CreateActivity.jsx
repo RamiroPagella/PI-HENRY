@@ -35,6 +35,7 @@ export default function CreateActivity () {
         countries: []
     })
     
+    
     //
 
     function changeHandler(e) {
@@ -125,7 +126,7 @@ export default function CreateActivity () {
 
 
             <form className={Styles['create-activity-form']}>
-
+                {isNameEmpty ? <p className={Styles['red-text']} style={{top: '5%'}}> * </p> : null}
 
                 <div className={Styles['input-container']}>
                     <label>Nombre:</label>
@@ -138,7 +139,7 @@ export default function CreateActivity () {
                         style={isNameEmpty || isNameIncorrect ? {border: 'solid red 1px'} : null}
                     ></input>
 
-                    {isNameEmpty ? <p className={Styles['red-text']}> * </p> : null}
+                    
                     {isNameIncorrect ? <p className={Styles['red-text']} id={Styles['incorrect-name']}> Menor a 25 caracteres. </p> : null}
                     {activityAlreadyExists ? <p className={Styles['red-text']} id={Styles['activity-already-exists']}> Ya existe una actividad con el mismo nombre. </p> : null}
 
@@ -170,9 +171,10 @@ export default function CreateActivity () {
                         style={isDurationEmpty ? {border: 'solid red 1px'} : null}
                     ></input>
                     
-                    {isDurationEmpty ? <p className={Styles['red-text']} style={{right: '30%'}}> * </p> : null}
 
                 </div>
+                {isDurationEmpty ? <p className={Styles['red-text']} style={{bottom: '53%'}}> * </p> : null}
+
 
                 <div className={Styles['input-container']} id={Styles['input-container-last']}>
 
@@ -220,11 +222,11 @@ export default function CreateActivity () {
                         </label>
 
                     </div>
-            
-                    {isSeasonEmpty ? <p className={Styles['red-text']} style={{top: '8%', right: '32%'}}> * </p> : null}
-
+        
 
                 </div>
+                {isSeasonEmpty ? <p className={Styles['red-text']} style={{bottom: '35%'}}> * </p> : null}
+
 
                 <select 
                     multiple 
@@ -235,7 +237,7 @@ export default function CreateActivity () {
                         countryNames?.map(name => <option value={name} key={name} > {name} </option>)
                     }
                 </select>
-                {isCountriesEmpty ? <p className={Styles['red-text']} style={{bottom: '17%'}}> * </p> : null}
+                {isCountriesEmpty ? <p className={Styles['red-text']} style={{bottom: '15%'}}> * </p> : null}
 
                 {
                     inputValues.name !== '' &&

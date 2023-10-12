@@ -1,6 +1,5 @@
 import axios from 'axios';
 //
-import divideCountriesInPages from './divideCountriesInPages';
 
 
 const getCountriesByNameFromServer = async (name) => {

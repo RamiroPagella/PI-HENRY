@@ -13,7 +13,7 @@ async function deleteActivity (req, res) {
 
     } catch (error) {
         console.log("Error al eliminar la actividad", error.message);
-        res.status(400).json({deleted: false})
+        res.status(500).json({error: error.message})
     }
 }
 

@@ -1,34 +1,57 @@
 import Styles from './activityItem.module.css';
 //
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 //
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { MdDeleteForever } from 'react-icons/md';
 //
-import { setActivities } from '../../redux/slice';
+import { setActivities, setCountries } from '../../redux/slice';
 //
 import axios from 'axios';
+//
+import getAllActivitiesFromServer from '../../utils/getAllActivitiesFromServer';
+import getAllCountriesFromServer from '../../utils/getAllCountriesFromServer';
 
 
 
 
-export default function ActivityItem ({ name, difficulty, duration, season, countries }) {
+export default function ActivityItem ({ id, name, difficulty, duration, season, countries }) {
 
     const dispatch = useDispatch();
 
     const [ isOpen, setIsOpen ] = useState(false);
     const activities = useSelector(state => state.app.activities);
 
-    async function handleDelete (e) {
+    //
+
+    function handleDelete (e) {
+        axios.delete(`http://localhost:3001/activities/query?name=${name}`)
+        .catch(err => console.log(err));
+
         let activitiesCOPY = [...activities];
         let index = activities.findIndex(act => act.name === name);
-
-        axios.delete(`http://localhost:3001/activities/query?name=${name}`)
         activitiesCOPY.splice(index, 1);
+
         dispatch(setActivities(activitiesCOPY));
+        setTimeout(() => {
+            getAllCountriesFromServer().then(data => dispatch(setCountries(data)));
+        }, 50)
     }
+
+    function handleDeleteCountry(e) {
+        const countryName = e.target.innerHTML;
+
+        axios.put('http://localhost:3001/activities', {activityID: id, countryName: countryName})
+        .catch(error => console.log(error));
+        setTimeout(() => {
+            getAllActivitiesFromServer().then(data => dispatch(setActivities(data)))
+            getAllCountriesFromServer().then(data => dispatch(setCountries(data)));
+        }, 50)
+    }
+
+    ///////////////////////////////////////////////
 
     return (
 
@@ -80,8 +103,15 @@ export default function ActivityItem ({ name, difficulty, duration, season, coun
 
                     <div id={Styles['countries-list']}>
                     {
-                        countries.map(country => 
-                            <p id={Styles.countryItem}style={{color: 'white'}} key={country}> {country} </p>
+                        countries?.map(country => 
+                            <p 
+                                id={Styles.countryItem}style={{color: 'white'}} 
+                                key={country}
+                                onClick={countries.length === 1 ? handleDelete : handleDeleteCountry}
+
+                            > 
+                                {country} 
+                            </p>
                         )
                     }                   
                     </div>
