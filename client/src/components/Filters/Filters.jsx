@@ -33,7 +33,7 @@ export default function Filters () {
         dispatch(setCountries(filterCountries(countriesCOPY, searchFiltersCOPY)));
     }
     
-    /////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////
 
     return (
         <div className={Styles['filter-buttons-container']}>
