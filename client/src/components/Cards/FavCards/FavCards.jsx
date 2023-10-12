@@ -20,7 +20,7 @@ export default function FavCards () {
         <div className={Styles['cards-container']}>
             
             {
-                favorites && favoritesInPages.length ? favoritesInPages[favCurrentPage].map(({ id, name, capital, flagImage }) => 
+                favorites && favoritesInPages.length ? favoritesInPages[favCurrentPage]?.map(({ id, name, capital, flagImage }) => 
                     <Card key={id} id={id} name={name} capital={capital} flagImage={flagImage}/>
                 )
                 :

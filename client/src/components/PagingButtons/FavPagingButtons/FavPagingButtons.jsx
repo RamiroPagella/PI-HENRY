@@ -22,23 +22,56 @@ export default function FavPagingButtons () {
         <div className={Styles['paging-container']}>
             <div className={Styles['pagingButtons-container']}>
                 
-            <MdKeyboardArrowLeft 
+            {/* <MdKeyboardArrowLeft 
                 id={favCurrentPage === 0 || !favorites.length ? Styles['paging-button-off'] : ''}
                 className={Styles['paging-button']} 
                 size={50}
                 onClick={() => {dispatch(favPrevPage())}}
-            />
+            /> */}
+
+                {
+                favorites.length && favCurrentPage > 0 ?
+                (<button 
+                    className={Styles['paging-button']} 
+                    onClick={() => {dispatch(favPrevPage())}}
+                    >
+
+                    <MdKeyboardArrowLeft 
+                        className={Styles['paging-icon']} 
+                        size={50}
+                    />
+                </button>)
+                :
+                <div style={{width: '50px'}}></div>
+            }
+            
 
             <p>
-                {`${favCurrentPage} / ${favoritesInPages.length ? favoritesInPages.length - 1 : 0}`}
+                {`${favCurrentPage + 1} / ${favoritesInPages.length > 0 ? favoritesInPages.length : 1}`}
             </p>
 
-            <MdKeyboardArrowRight 
+            {/* <MdKeyboardArrowRight 
                 id={favorites.length && favCurrentPage === favoritesInPages.length - 1 || !favorites.length ? Styles['paging-button-off'] : ''}
                 className={Styles['paging-button']} 
                 size={50}
                 onClick={() => {dispatch(favNextPage())}}
-            />
+            /> */}
+
+            {
+                favorites.length && favCurrentPage !== favoritesInPages.length - 1 ?
+                (<button   
+                    className={Styles['paging-button']} 
+                    onClick={() => {dispatch(favNextPage())}}
+                    >
+
+                    <MdKeyboardArrowRight 
+                        className={Styles['paging-icon']} 
+                        size={50}
+                    />
+                </button>)
+                :
+                <div style={{width: '50px'}}></div>
+            }
 
             </div>
         </div>

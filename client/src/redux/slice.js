@@ -60,10 +60,10 @@ export const slice = createSlice({
             state.favCurrentPage = 0;
         },
         favPrevPage: (state) => {
-            state.favCurrentPage++
+            state.favCurrentPage--
         },
         favNextPage: (state) => {
-            state.favCurrentPage--
+            state.favCurrentPage++
         },
         setFavorites: (state, action) => {
             state.favorites = action.payload;
