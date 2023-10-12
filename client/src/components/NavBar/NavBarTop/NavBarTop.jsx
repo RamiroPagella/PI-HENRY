@@ -5,6 +5,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 //
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom'
 //
 import { setCountries, setCurrentPage } from '../../../redux/slice';
 //
@@ -14,6 +15,8 @@ import filterCountries from '../../../utils/filterCountries';
 export default function navBarTop () {
 
     const dispatch = useDispatch();
+    const { pathname } = useLocation();
+
     const countriesCOPY = useSelector(state => state.app.countriesCOPY);
     const searchFilters = useSelector(state => state.app.searchFilters);
     const [ inputValue, setInputValue ] = useState('');
@@ -54,11 +57,12 @@ export default function navBarTop () {
             <IoEarthOutline className={Styles['earth-icon']} />
 
 
-            <AiOutlineSearch className={Styles['search-icon']} />
+            <AiOutlineSearch className={Styles['search-icon']} style={pathname !== '/home' ? {display: 'none'} : null}/>
 
             <input 
                 className={Styles['search-input']} 
                 onChange={changeHandler}
+                style={pathname !== '/home' ? {display: 'none'} : null}
                 >
 
             </input>
