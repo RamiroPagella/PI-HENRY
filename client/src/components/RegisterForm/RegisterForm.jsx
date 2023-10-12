@@ -31,17 +31,17 @@ function RegisterForm () {
 
     //
 
-    function handleChange(event) {
-        event.preventDefault();
-        setInputValues({
-            ...inputValues,
-            [event.target.name]: event.target.value
-        })
-    }
-    function handleClick(event) {
-        event.preventDefault();
-        setErrorMsgIsShown(validate(inputValues), register());
+    function handleChange(e) {
+        const inputValuesCOPY = {...inputValues};
+        inputValuesCOPY[e.target.name] = e.target.value;
 
+        setErrorMsgIsShown(validate(inputValuesCOPY))
+        setInputValues(inputValuesCOPY)
+    }
+
+    function handleClick(e) {
+        setErrorMsgIsShown(validate(inputValues))
+        register()
     }
 
     function validate(inputs) {
@@ -92,7 +92,6 @@ function RegisterForm () {
                 const { response } = await axios.post('http://localhost:3001/register', inputValues);
                 navigate('/home')
             }
-            
         } catch (error) {
             console.log(error)
         }

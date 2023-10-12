@@ -108,7 +108,7 @@ export default function CreateActivity () {
 
 
             <form className={Styles['create-activity-form']}>
-                {!inputValues.name.length ? <p className={Styles['red-text']} style={{top: '5%'}}> * </p> : null}
+                {!inputValues?.name.length ? <p className={Styles['red-text']} style={{top: '5%'}}> * </p> : null}
 
                 <div className={Styles['input-container']}>
                     <label>Nombre:</label>
@@ -118,11 +118,11 @@ export default function CreateActivity () {
                         value={inputValues.name}
                         onChange={changeHandler}
                         id={Styles['name-input']}
-                        style={inputValues.name > 25 || !inputValues.name.length ? {border: 'solid red 1px'} : null}
+                        style={inputValues?.name > 25 || !inputValues?.name.length ? {border: 'solid red 1px'} : null}
                     ></input>
 
                     
-                    {inputValues.name.length > 25 ? <p className={Styles['red-text']} id={Styles['incorrect-name']}> Menor a 25 caracteres. </p> : null}
+                    {inputValues?.name.length > 25 ? <p className={Styles['red-text']} id={Styles['incorrect-name']}> Menor a 25 caracteres. </p> : null}
                     {activityAlreadyExists ? <p className={Styles['red-text']} id={Styles['activity-already-exists']}> Ya existe una actividad con el mismo nombre. </p> : null}
 
                 </div>               
@@ -150,12 +150,12 @@ export default function CreateActivity () {
                         name='duration'
                         value={inputValues.duration}
                         onChange={changeHandler}
-                        style={!inputValues.duration.length ? {border: 'solid red 1px'} : null}
+                        style={!inputValues?.duration.length ? {border: 'solid red 1px'} : null}
                     ></input>
                     
 
                 </div>
-                {!inputValues.duration.length ? <p className={Styles['red-text']} style={{bottom: '53%'}}> * </p> : null}
+                {!inputValues?.duration.length ? <p className={Styles['red-text']} style={{bottom: '53%'}}> * </p> : null}
 
 
                 <div className={Styles['input-container']} id={Styles['input-container-last']}>
@@ -207,7 +207,7 @@ export default function CreateActivity () {
         
 
                 </div>
-                {!inputValues.season.length ? <p className={Styles['red-text']} style={{bottom: '35%'}}> * </p> : null}
+                {!inputValues?.season.length ? <p className={Styles['red-text']} style={{bottom: '35%'}}> * </p> : null}
 
 
                 <select 
@@ -222,15 +222,15 @@ export default function CreateActivity () {
                         )
                     }
                 </select>
-                {!inputValues.countries.length ? <p className={Styles['red-text']} style={{bottom: '15%'}}> * </p> : null}
+                {!inputValues?.countries.length ? <p className={Styles['red-text']} style={{bottom: '15%'}}> * </p> : null}
 
                 {
-                    inputValues.name !== '' &&
-                    inputValues.difficulty >= 1 && 
-                    inputValues.difficulty <= 5 && 
-                    /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(inputValues.duration) && 
-                    inputValues.season !== '' && 
-                    inputValues.countries.length ?
+                    inputValues?.name !== '' &&
+                    inputValues?.difficulty >= 1 && 
+                    inputValues?.difficulty <= 5 && 
+                    /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(inputValues?.duration) && 
+                    inputValues?.season !== '' && 
+                    inputValues?.countries.length ?
                     (<button 
                         type='button'
                         onClick={submitHandler} 
