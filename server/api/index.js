@@ -1,11 +1,27 @@
-const axios = require("axios");
-const server = require("../src/server.js");
+const express = require('express');
 const { Country, conn } = require("../src/db.js");
-const data = require('../data.js');
+const data = require("../data.js");
+const morgan = require('morgan');
+const router = require('../src/routes');
+
 
 const PORT = 3001;
 
 //////////////////////////
+
+const server = express();
+
+server.use(morgan("dev"));
+server.use(express.json());
+server.use(cors());
+
+server.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  next();
+});
+
+server.use(router);
 
 conn
   .sync({ force: true })
@@ -13,7 +29,7 @@ conn
     server.listen(PORT, async () => {
       console.log(`Server listening on port ${PORT}`);
 
-      if (await Country.count() <= 0) {
+      if ((await Country.count()) <= 0) {
         try {
           const countries = await Country.bulkCreate(data);
         } catch (error) {
@@ -26,3 +42,5 @@ conn
     });
   })
   .catch((error) => console.error(error));
+
+module.exports = server;
