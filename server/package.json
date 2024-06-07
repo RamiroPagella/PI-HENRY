@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Server Proyecto Individual",
-  "main": "index.js",
+  "main": "./api/index.js",
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
