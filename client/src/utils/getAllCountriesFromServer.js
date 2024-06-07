@@ -1,8 +1,4 @@
 import axios from 'axios';
-//
-import divideCountriesInPages from './divideCountriesInPages';
-
-
 
 //
 async function getAllCountriesFromServer () {

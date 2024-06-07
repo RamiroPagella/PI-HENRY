@@ -7,5 +7,5 @@ function divideCountriesInPages(arr) {
   return divisiones;
 }
 
-export default divideCountriesInPages
+export default divideCountriesInPages;
     

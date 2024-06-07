@@ -8,13 +8,12 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/countries`, {
-  logging: false, 
-  native: false, 
-  define: {
-    timestamps: false,
-  }
-});
+const sequelize = new Sequelize('postgres', DB_USER, DB_PASSWORD, {
+  host: DB_HOST,
+  dialect: 'postgres',
+  logging: false
+})
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
