@@ -1,8 +1,7 @@
 const axios = require("axios");
-const server = require("./src/server");
-const { conn } = require("./src/db.js");
-const { Country } = require("./src/db");
-const data = require("./data.js");
+const server = require("../src/server.js");
+const { Country, conn } = require("../src/db.js");
+const data = require('../data.js');
 
 const PORT = 3001;
 

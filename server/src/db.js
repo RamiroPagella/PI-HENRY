@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const axios = require('axios')
-
+const pg = require('pg');
 const fs = require('fs');
 const path = require('path');
 const {
@@ -11,7 +11,8 @@ const {
 const sequelize = new Sequelize('postgres', DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: 'postgres',
-  logging: false
+  logging: false,
+  dialectModule: pg
 })
 
 const basename = path.basename(__filename);
