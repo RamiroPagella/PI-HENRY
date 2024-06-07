@@ -1,9 +1,9 @@
-const express = require('express');
-const { Country, conn } = require("./src/db.js");
-const data = require("./data.js");
-const morgan = require('morgan');
-const router = require('./src/routes/index.js');
-
+const express = require("express");
+const { Country, conn } = require("../src/db.js");
+const data = require("../data.js");
+const morgan = require("morgan");
+const router = require("../src/routes/index.js");
+const cors = require('cors');
 
 const PORT = 3001;
 
@@ -14,7 +14,6 @@ const server = express();
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
-
 server.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.setHeader("Pragma", "no-cache");
