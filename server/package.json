@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Server Proyecto Individual",
-  "main": "./api/index.js",
+  "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "start": "node ./api/index.js",
+    "start": "node index.js",
     "build": "./node_modules/.bin/babel src --out-dir public"
   },
   "author": "",

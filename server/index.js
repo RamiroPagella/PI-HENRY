@@ -1,8 +1,8 @@
 const express = require('express');
-const { Country, conn } = require("../src/db.js");
-const data = require("../data.js");
+const { Country, conn } = require("./src/db.js");
+const data = require("./data.js");
 const morgan = require('morgan');
-const router = require('../src/routes');
+const router = require('./src/routes/index.js');
 
 
 const PORT = 3001;
